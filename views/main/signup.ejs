@@ -1,0 +1,51 @@
+<% layout("layout-no-sidebar") %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 offset-md-3">
+      <form action="/signup" method="POST">
+        <div class="card" style=" margin: auto; margin-top: 20vh">
+          <div class="card-body" style="padding: 25px 50px">
+            <span class="text-center">
+              <h4>RateMe</h4>
+              <br />
+              <h6>Sign up</h6>
+            </span>
+            <div class="form-group">
+              <label for="username" class="bmd-label-floating">Username</label>
+              <input
+                type="text"
+                name="username"
+                class="form-control"
+                id="username"
+              />
+            </div>
+            <div class="form-group">
+              <label for="email" class="bmd-label-floating">Email</label>
+              <input
+                type="email"
+                name="email"
+                class="form-control"
+                id="email"
+              />
+            </div>
+            <div class="form-group">
+              <label for="password" class="bmd-label-floating">Password</label>
+              <input
+                type="password"
+                name="password"
+                class="form-control"
+                id="password"
+              />
+            </div>
+            <button class="btn btn-block btn-raised btn-success" type="submit">
+              Submit
+            </button>
+            <br />
+            <p>Have an account? <a href="/signin">Sign in</a></p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
