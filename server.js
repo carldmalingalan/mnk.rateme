@@ -31,19 +31,11 @@ mongoose
     throw err;
   });
 
-// Passport js import
-require("./config/passport");
-
-// Static
-app.use(express.static("public"));
-
-// View Engine
-app.engine("ejs", engine);
-app.set("view engine", "ejs");
-
 // Middleware
-app.use(express.json());
 app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 app.use(
   session({
     secret: process.env.session_secret,
@@ -56,8 +48,23 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Static
+app.use(express.static("public"));
+
+// View Engine
+app.engine("ejs", engine);
+app.set("views", __dirname + "/views");
+app.set("view engine", "ejs");
+
+// Passport js import
+require("./middleware/auth/passport");
+
 // Routes
 app.use("/", require("./route"));
+
+app.get("*", (req, res) => {
+  res.redirect("/");
+});
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running at port: ${process.env.PORT}`);
