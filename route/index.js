@@ -13,6 +13,9 @@ route.get("/", (req, res) => {
 });
 
 route.get("/signup", (req, res) => {
+  if (req.user) {
+    return res.redirect("/");
+  }
   res.render("main/signup", {
     pageTitle: "Sign up - RateMe",
     errors: req.flash("error")
@@ -36,12 +39,15 @@ route.post(
   singupValidate,
   passport.authenticate("local.signup", {
     failureRedirect: "/signup",
-    successRedirect: "/"
+    successRedirect: "/signin"
   }),
   (req, res) => {}
 );
 
 route.get("/signin", (req, res) => {
+  if (req.user) {
+    return res.redirect("/");
+  }
   res.render("main/signin", {
     pageTitle: "Sign in - RateMe",
     errors: req.flash("error"),
@@ -62,13 +68,28 @@ route.post(
   ],
   singupValidate,
   passport.authenticate("local.signin", {
-    successRedirect: "/",
     failureRedirect: "/signin"
   }),
-  (req, res) => {}
+  (req, res) => {
+    if (req.body.remme) {
+      req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
+      req.session.random = Math.random();
+    } else {
+      req.session.cookie.expires = null;
+    }
+    res.redirect("/");
+  }
 );
 
+route.get("/signout", (req, res) => {
+  req.logout();
+  res.redirect("/signin");
+});
+
 route.get("/forget", (req, res) => {
+  if (req.user) {
+    return res.redirect("/");
+  }
   res.render("main/forget", {
     pageTitle: "Reset Password - RateMe",
     errors: req.flash("error"),
@@ -160,6 +181,9 @@ route.post(
 );
 
 route.get("/reset/:token", resetValidate, (req, res) => {
+  if (req.user) {
+    return res.redirect("/");
+  }
   res.render("main/reset", {
     pageTitle: "Reset Password - RateMe",
     email: req.temp.email,
