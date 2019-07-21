@@ -103,7 +103,7 @@ passport.use(
     (req, email, pass, done) => {
       const error = req.flash("error");
       if (error.length) {
-        return cb(null, false, req.flash("error", error));
+        return done(null, false, req.flash("error", error));
       }
 
       User.findOne({ email }, (err, user) => {
@@ -115,12 +115,63 @@ passport.use(
           return done(null, false, req.flash("error", "Email doesn't exist."));
         }
 
-        return done(
-          null,
-          user,
-          req.flash("success", "Check email to reset password.")
-        );
+        return done(null, user);
       });
+    }
+  )
+);
+
+passport.use(
+  "local.reset",
+  new LocalStrategy(
+    {
+      usernameField: "password",
+      passwordField: "password",
+      passReqToCallback: true
+    },
+    (req, user, pass, done) => {
+      const error = req.flash("error");
+      if (error.length) {
+        return done(null, false, req.flash("error", error));
+      }
+
+      User.findOne({ passwordResetToken: req.params.token })
+        .select("-password")
+        .then(retset => {
+          if (Date.now() > new Date(retset.passwordResetExpiration)) {
+            retset.passwordResetToken = "";
+            retset.save();
+            return done(
+              null,
+              false,
+              req.flash(
+                "error",
+                "Sorry, the link your trying to access has expired."
+              )
+            );
+          }
+
+          retset.password = pass;
+          retset.passwordResetToken = "";
+          retset.passwordResetExpiration = Date.now();
+          retset.save((errMsg, infoMsg) => {
+            return done(
+              errMsg,
+              infoMsg,
+              req.flash("success", "Success! You have reset your password.")
+            );
+          });
+        })
+        .catch(err => {
+          return done(
+            null,
+            false,
+            req.flash(
+              "error",
+              "Sorry, the link your trying to access is invalid."
+            )
+          );
+        });
     }
   )
 );

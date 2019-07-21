@@ -22,6 +22,16 @@
 
               <% errors.forEach(function(val){ %> <%= val %> <br /><% }) %>
             </div>
+            <% } %> <% if(success.length) {%>
+            <div
+              class="alert alert-success alert-dismissible fade show"
+              role="alert"
+            >
+              <button class="close" data-dismiss="alert" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <% success.forEach(function(val){ %> <%= val %> <% }) %>
+            </div>
             <% } %>
             <div class="form-group">
               <label for="email" class="bmd-label-floating">Email</label>

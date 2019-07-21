@@ -1,7 +1,12 @@
 const route = require("express").Router();
 const passport = require("passport");
 const singupValidate = require("../middleware/auth/signupValidate");
+const resetValidate = require("../middleware/auth/resetValidate");
 const { check, validationResult } = require("express-validator");
+const crypto = require("crypto");
+const asyncPkg = require("async");
+const User = require("../models/User");
+const nodemailer = require("nodemailer");
 
 route.get("/", (req, res) => {
   res.render("main/index", { pageTitle: "Index - Page" });
@@ -39,7 +44,8 @@ route.post(
 route.get("/signin", (req, res) => {
   res.render("main/signin", {
     pageTitle: "Sign in - RateMe",
-    errors: req.flash("error")
+    errors: req.flash("error"),
+    success: req.flash("success")
   });
 });
 
@@ -86,9 +92,91 @@ route.post(
     next();
   },
   passport.authenticate("local.forget", {
-    successRedirect: "/forget",
     failureRedirect: "/forget",
     failureFlash: true
+  }),
+  (req, res) => {
+    asyncPkg.waterfall([
+      callback => {
+        crypto.randomBytes(128, (err, buffer) => {
+          callback(err, buffer.toString("hex"));
+        });
+      },
+      (buff, callback) => {
+        User.findOneAndUpdate(
+          { email: req.body.email },
+          {
+            $set: {
+              passwordResetToken: buff,
+              passwordResetExpiration: Date.now() + 60 * 60 * 1000
+            }
+          },
+          {
+            new: true,
+            fields: {
+              passwordResetToken: 1,
+              passwordResetExpiration: 1,
+              email: 1,
+              username: 1
+            }
+          },
+          (err, userRes) => {
+            let transporter = nodemailer.createTransport({
+              host: "smtp.gmail.com",
+              port: 465,
+              secure: true,
+              auth: {
+                user: process.env.G_USER,
+                pass: process.env.G_PASS
+              }
+            });
+            transporter
+              .sendMail({
+                from: `RateMe <${process.env.G_USER}>`,
+                to: userRes.email,
+                subject: "Password Reset.",
+                html: `<strong>Hi ${
+                  userRes.username
+                },</strong> <br /> <p>You have requested for your password to be reset. Please click the <a href="http://localhost:5000/reset/${buff}">link</a> to set new password.</p> `
+              })
+              .then(emailStat => {
+                req.flash(
+                  "success",
+                  "Success! Please check email to reset password."
+                );
+                return callback(err, emailStat);
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          }
+        );
+      },
+      (err, user) => {
+        res.redirect("/forget");
+      }
+    ]);
+  }
+);
+
+route.get("/reset/:token", resetValidate, (req, res) => {
+  res.render("main/reset", {
+    pageTitle: "Reset Password - RateMe",
+    email: req.temp.email,
+    actionLink: `/reset/${req.params.token}`
+  });
+});
+
+route.post(
+  "/reset/:token",
+  [
+    check("password", "Password must be atleast 5 character.").isLength({
+      min: 5
+    })
+  ],
+  passport.authenticate("local.reset", {
+    failureRedirect: "/signin",
+    successRedirect: "/signin"
   }),
   (req, res) => {}
 );

@@ -1,0 +1,41 @@
+<% layout("layout-no-sidebar") %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 offset-md-3">
+      <form action="<%= actionLink %>" method="POST">
+        <div class="card" style=" margin: auto; margin-top: 20vh">
+          <div class="card-body" style="padding: 25px 50px">
+            <span class="text-center">
+              <h4>
+                <a href="/" style="text-decoration: none;">RateMe</a>
+              </h4>
+              <br />
+              <h6>Reset Password</h6>
+              <p>
+                <span class="badge badge-pill badge-success">
+                  <%= email %></span
+                >
+              </p>
+            </span>
+
+            <div class="form-group">
+              <label for="password" class="bmd-label-floating">Password</label>
+              <input
+                required
+                type="password"
+                name="password"
+                class="form-control"
+                id="password"
+              />
+            </div>
+            <button class="btn btn-block btn-raised btn-success" type="submit">
+              Reset
+            </button>
+            <br />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

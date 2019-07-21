@@ -21,11 +21,20 @@ const UserSchema = new Schema({
   date_created: {
     type: Date,
     default: Date.now
+  },
+  passwordResetToken: {
+    type: String,
+    default: ""
+  },
+  passwordResetExpiration: {
+    type: Date,
+    default: Date.now
   }
 });
 
 UserSchema.pre("save", function(next) {
-  if (!this.isModified("password")) return next();
+  if (!this.isModified("password") && !this.isModified("passwordResetToken"))
+    return next();
 
   bcrypt.genSalt(SaltCount, (err, salt) => {
     if (err) {
