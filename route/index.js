@@ -9,6 +9,9 @@ const User = require("../models/User");
 const nodemailer = require("nodemailer");
 
 route.get("/", (req, res) => {
+  if (!req.user) {
+    return res.redirect("/signin");
+  }
   res.render("main/index", { pageTitle: "Index - Page" });
 });
 

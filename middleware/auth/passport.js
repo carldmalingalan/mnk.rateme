@@ -1,6 +1,7 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("../../models/User");
+const FBStrategy = require("passport-facebook").Strategy;
 
 passport.serializeUser((user, done) => {
   if (!user) {
@@ -172,6 +173,20 @@ passport.use(
             )
           );
         });
+    }
+  )
+);
+
+passport.use(
+  "facebook",
+  new FBStrategy(
+    {
+      clientID: process.env.FB_APP_ID,
+      clientSecret: process.env.FB_APP_SECRET,
+      callbackURL: "http://localhost:5000/auth/facebook/callback"
+    },
+    (accessToken, refreshToken, profile, done) => {
+      console.log(accessToken, refreshToken, profile);
     }
   )
 );
