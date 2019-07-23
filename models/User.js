@@ -15,12 +15,15 @@ const UserSchema = new Schema({
     unique: true
   },
   password: {
-    type: String,
-    required: true
+    type: String
   },
   date_created: {
     type: Date,
     default: Date.now
+  },
+  facebookID: {
+    type: String,
+    default: ""
   },
   passwordResetToken: {
     type: String,
@@ -33,8 +36,12 @@ const UserSchema = new Schema({
 });
 
 UserSchema.pre("save", function(next) {
-  if (!this.isModified("password") && !this.isModified("passwordResetToken"))
+  if (
+    (!this.isModified("password") && !this.isModified("passwordResetToken")) ||
+    (!this.isModified("password") && !this.isModified("facebookID"))
+  ) {
     return next();
+  }
 
   bcrypt.genSalt(SaltCount, (err, salt) => {
     if (err) {

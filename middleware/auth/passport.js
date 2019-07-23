@@ -178,15 +178,35 @@ passport.use(
 );
 
 passport.use(
-  "facebook",
+  "facebook-local",
   new FBStrategy(
     {
       clientID: process.env.FB_APP_ID,
       clientSecret: process.env.FB_APP_SECRET,
-      callbackURL: "http://localhost:5000/auth/facebook/callback"
+      callbackURL: "http://localhost:5000/auth/facebook/callback",
+      profileFields: ["id", "displayName", "email", "name"]
     },
     (accessToken, refreshToken, profile, done) => {
-      console.log(accessToken, refreshToken, profile);
+      User.findOne({ facebookID: profile.id }, "-password", (err, userData) => {
+        if (err) {
+          done(null, err);
+        }
+        if (userData) {
+          return done(null, userData);
+        }
+
+        let newUser = new User({
+          email: profile._json.email,
+          username: profile.displayName,
+          facebookID: profile.id
+        });
+        newUser.save(err => {
+          if (err) {
+            return done(null, err);
+          }
+          done(null, newUser);
+        });
+      });
     }
   )
 );
