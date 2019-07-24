@@ -12,7 +12,7 @@ route.get("/", (req, res) => {
   if (!req.user) {
     return res.redirect("/signin");
   }
-  res.render("main/index", { pageTitle: "Index - Page" });
+  res.render("main/index", { pageTitle: "Index - Page", user: req.user });
 });
 
 route.get("/signup", (req, res) => {

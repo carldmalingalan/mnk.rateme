@@ -9,7 +9,6 @@ route.get(
   })
 );
 
-route.post("/");
 route.get(
   "/facebook/callback",
   passport.authenticate("facebook-local"),
@@ -18,4 +17,5 @@ route.get(
     res.redirect("/");
   }
 );
+
 module.exports = route;
