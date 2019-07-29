@@ -1,56 +1,58 @@
 <% layout("layout-no-sidebar") %>
+<div class="d-flex align-items-center" style="height: 100vh">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 offset-md-3">
+        <% if(errors.length) {%>
+        <div
+          class="alert alert-danger alert-dismissible fade show"
+          role="alert"
+        >
+          <button class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">&times;</span>
+          </button>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 offset-md-3">
-      <form action="/forget" method="POST">
-        <div class="card" style=" margin: auto; margin-top: 20vh">
-          <div class="card-body" style="padding: 25px 50px">
-            <span class="text-center">
-              <h4><a href="/" style="text-decoration: none;">RateMe</a></h4>
-              <br />
-              <h6>Reset Password</h6>
-              <p>Please enter a valid email.</p>
-            </span>
-            <% if(errors.length) {%>
-            <div
-              class="alert alert-danger alert-dismissible fade show"
-              role="alert"
-            >
-              <button class="close" data-dismiss="alert" aria-label="close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-
-              <% errors.forEach(function(val){ %> <%= val %><br />
-            </div>
-            <% }) %> <% } %> <% if(success.length) {%>
-            <div
-              class="alert alert-success alert-dismissible fade show"
-              role="alert"
-            >
-              <button class="close" data-dismiss="alert" aria-label="close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <% success.forEach(function(val){ %> <%= val %> <% }) %>
-            </div>
-            <% } %>
-            <div class="form-group">
-              <label for="email" class="bmd-label-floating">Email</label>
-              <input
-                required
-                type="email"
-                name="email"
-                class="form-control"
-                id="email"
-              />
-            </div>
-            <button class="btn btn-block btn-raised btn-success" type="submit">
-              Submit
-            </button>
-            <br />
-          </div>
+          <% errors.forEach(function(val){ %> <%= val %><br />
         </div>
-      </form>
+        <% }) %> <% } %> <% if(success.length) {%>
+        <div
+          class="alert alert-success alert-dismissible fade show"
+          role="alert"
+        >
+          <button class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <% success.forEach(function(val){ %> <%= val %> <% }) %>
+        </div>
+        <% } %>
+        <form action="/forget" method="POST">
+          <div class="card">
+            <div class="card-body">
+              <span class="text-center">
+                <h4><a href="/" style="text-decoration: none;">RateMe</a></h4>
+                <br />
+                <h6>Reset Password</h6>
+                <p>Please enter a valid email.</p>
+              </span>
+
+              <div class="form-group">
+                <label for="email" class="bmd-label-floating">Email</label>
+                <input
+                  required
+                  type="email"
+                  name="email"
+                  class="form-control"
+                  id="email"
+                />
+              </div>
+              <button class="btn btn-block btn-outline-success" type="submit">
+                Reset Password
+              </button>
+              <br />
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

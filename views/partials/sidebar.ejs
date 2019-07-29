@@ -1,54 +1,59 @@
-<div class="bmd-layout-container bmd-drawer-f-l bmd-drawer-overlay">
-  <header class="bmd-layout-header">
-    <div class="navbar navbar-light bg-faded">
+<div class="d-flex" id="wrapper">
+  <!-- Sidebar -->
+  <div class="bg-light border-right" id="sidebar-wrapper">
+    <div class="sidebar-heading">Start Bootstrap</div>
+    <div class="list-group list-group-flush">
+      <a href="#" class="list-group-item list-group-item-action bg-light"
+        >Dashboard</a
+      >
+      <a href="#" class="list-group-item list-group-item-action bg-light"
+        >Shortcuts</a
+      >
+      <a href="#" class="list-group-item list-group-item-action bg-light"
+        >Overview</a
+      >
+      <a href="#" class="list-group-item list-group-item-action bg-light"
+        >Events</a
+      >
+      <a href="#" class="list-group-item list-group-item-action bg-light"
+        >Profile</a
+      >
+      <a href="#" class="list-group-item list-group-item-action bg-light"
+        >Status</a
+      >
+    </div>
+  </div>
+  <!-- /#sidebar-wrapper -->
+
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+      <button class="btn" id="menu-toggle"><i class="fa fa-bars"></i></button>
+
       <button
         class="navbar-toggler"
         type="button"
-        data-toggle="drawer"
-        data-target="#dw-s2"
-        style="border: 0px solid black"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
       >
-        <span class="sr-only">Toggle drawer</span>
-        <i class="material-icons">menu</i>
+        <span class="navbar-toggler-icon"></span>
       </button>
-      <ul class="nav navbar-nav">
-        <li class="nav-item">
-          <a href="/signout" class="nav-link">Logout</a>
-        </li>
-      </ul>
-    </div>
-  </header>
-  <div id="dw-s2" class="bmd-layout-drawer bg-dark text-light">
-    <div class="d-flex justify-content-center">
-      <header>
-        <a class="navbar-brand">MNK RateMe</a>
-      </header>
-    </div>
 
-    <div class="d-flex justify-content-center">
-      <img
-        src="https://via.placeholder.com/100"
-        alt="DisplayImage"
-        class="rounded-circle img-thumbnail"
-      />
-    </div>
-    <br />
-    <div class="d-flex justify-content-center">
-      <h5><%= user.username %></h5>
-    </div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="/signout">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
-    <ul class="list-group nav-item">
-      <a class="list-group-item nav-link bg-light text-dark" href="/">Home</a>
-      <a class="list-group-item nav-link bg-light text-dark" href="/"
-        >Companies</a
-      >
-      <a class="list-group-item nav-link bg-light text-dark" href="/">Rating</a>
-    </ul>
-  </div>
-  <main class="bmd-layout-c" style="height: 100%">
     <div class="container">
-      <br />
       <%- body -%>
     </div>
-  </main>
+  </div>
+  <!-- /#page-content-wrapper -->
 </div>

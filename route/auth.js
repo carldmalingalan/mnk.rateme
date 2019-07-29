@@ -13,7 +13,6 @@ route.get(
   "/facebook/callback",
   passport.authenticate("facebook-local"),
   (req, res) => {
-    console.log(req.user);
     res.redirect("/");
   }
 );

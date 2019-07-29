@@ -1,64 +1,73 @@
 <% layout("layout-no-sidebar") %>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 offset-md-3">
-      <form action="/signup" method="POST">
-        <div class="card" style=" margin: auto; margin-top: 20vh">
-          <div class="card-body" style="padding: 25px 50px">
-            <span class="text-center">
-              <h4>RateMe</h4>
-              <br />
-              <h6>Sign up</h6>
-            </span>
-            <% if(errors.length) {%>
-            <div
-              class="alert alert-danger alert-dismissible fade show"
-              role="alert"
-            >
-              <button class="close" data-dismiss="alert" aria-label="close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+<div class="d-flex align-items-center" style="height: 100vh">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 offset-md-3">
+        <form action="/signup" method="POST">
+          <div class="card">
+            <div class="card-body">
+              <span class="text-center">
+                <h4>RateMe</h4>
+                <br />
+                <h6>Sign up</h6>
+              </span>
+              <% if(errors.length) {%>
+              <div
+                class="alert alert-danger alert-dismissible fade show"
+                role="alert"
+              >
+                <button class="close" data-dismiss="alert" aria-label="close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
 
-              <% errors.forEach(function(val){ %> <%= val %> <br />
-              <% }) %>
+                <% errors.forEach(function(val){ %> <%= val %> <br />
+                <% }) %>
+              </div>
+              <% } %>
+              <div class="form-group">
+                <label for="username" class="bmd-label-floating"
+                  >Username</label
+                >
+                <input
+                  type="text"
+                  name="username"
+                  class="form-control"
+                  id="username"
+                />
+              </div>
+              <div class="form-group">
+                <label for="email" class="bmd-label-floating">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  class="form-control"
+                  id="email"
+                />
+              </div>
+              <div class="form-group">
+                <label for="password" class="bmd-label-floating"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  name="password"
+                  class="form-control"
+                  id="password"
+                />
+              </div>
+              <button
+                class="btn btn-block btn-raised btn-success"
+                type="submit"
+              >
+                Register
+              </button>
+              <br />
+              <p>Have an account? <a href="/signin">Sign in</a></p>
             </div>
-            <% } %>
-            <div class="form-group">
-              <label for="username" class="bmd-label-floating">Username</label>
-              <input
-                type="text"
-                name="username"
-                class="form-control"
-                id="username"
-              />
-            </div>
-            <div class="form-group">
-              <label for="email" class="bmd-label-floating">Email</label>
-              <input
-                type="email"
-                name="email"
-                class="form-control"
-                id="email"
-              />
-            </div>
-            <div class="form-group">
-              <label for="password" class="bmd-label-floating">Password</label>
-              <input
-                type="password"
-                name="password"
-                class="form-control"
-                id="password"
-              />
-            </div>
-            <button class="btn btn-block btn-raised btn-success" type="submit">
-              Submit
-            </button>
-            <br />
-            <p>Have an account? <a href="/signin">Sign in</a></p>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 </div>
