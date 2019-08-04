@@ -63,6 +63,7 @@ require("./middleware/auth/passport");
 // Routes
 app.use("/", require("./route"));
 app.use("/auth", require("./route/auth"));
+app.use("/company/", require("./route/companies"));
 
 app.get("*", (req, res) => {
   res.redirect("/");

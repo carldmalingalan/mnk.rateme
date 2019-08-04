@@ -1,25 +1,52 @@
 <% layout("layout") -%>
 <div class="d-flex align-items-center">
   <div class="container" style="margin-top: 20px">
+    <div class="jumbotron text-center">
+      <div class="display-4">Welcome, <%= user.username%></div>
+      <p>
+        This the MNK "Rate Me" web application that let you different kind of
+        company.
+      </p>
+    </div>
     <div class="row">
       <div class="col-12 col-sm-12 col-md-4 col-lg-4  mt-4">
-        <div class="card bg-info">
-          <div class="card-body">
-            <input type="text" class="form-control" placeholder="Working" />
+        <div class="card">
+          <div class="card-body text-center">
+            <div class="form-group">
+              <h3><i class="fa fa-search"></i> Search</h3>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+              Accusamus, laborum?
+              <br />
+              <button class="btn btn-primary mt-4">Search Here</button>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-12 col-sm-12 col-md-4 col-lg-4  mt-4">
         <div class="card">
-          <div class="card-body">
-            <input type="text" class="form-control" placeholder="Working" />
+          <div class="card-body text-center">
+            <div class="form-group">
+              <h3><i class="fa fa-building"></i> Companies</h3>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa,
+              qui?
+              <br />
+              <a href="/company/add" class="btn btn-primary mt-4"
+                >Add Company</a
+              >
+            </div>
           </div>
         </div>
       </div>
       <div class="col-12 col-sm-12 col-md-4 col-lg-4  mt-4">
         <div class="card">
-          <div class="card-body">
-            <input type="text" class="form-control" placeholder="Working" />
+          <div class="card-body text-center">
+            <div class="form-group">
+              <h3><i class="fa fa-user-ninja"></i> Employee</h3>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maxime,
+              dolore.
+              <br />
+              <butto class="btn btn-primary mt-4">Add Employee</butto>
+            </div>
           </div>
         </div>
       </div>

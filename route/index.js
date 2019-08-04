@@ -65,9 +65,9 @@ route.post(
       .not()
       .isEmpty(),
     check("email", "Email is invalid.").isEmail(),
-    check("password", "Password must be atleast 5 characters.").isLength({
-      min: 5
-    })
+    check("password", "Password is empty")
+      .not()
+      .isEmpty()
   ],
   singupValidate,
   passport.authenticate("local.signin", {

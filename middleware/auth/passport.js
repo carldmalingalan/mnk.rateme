@@ -81,7 +81,13 @@ passport.use(
         if (!user) {
           return cb(null, false, req.flash("error", "User doens't exist."));
         }
-
+        if (user.facebookID) {
+          return cb(
+            null,
+            false,
+            req.flash("error", "Please login using facebook.")
+          );
+        }
         user.comparePass(pass).then(res => {
           if (!res) {
             return cb(
