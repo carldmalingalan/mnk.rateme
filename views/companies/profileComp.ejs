@@ -1,0 +1,56 @@
+<% layout("layout") %>
+
+<div class="row" style="margin-top: 20px">
+  <div class="col-12 col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div
+            class="col-12 col-sm-12 col-md-12 col-lg-12"
+            style="padding: 5px 0 5px 15px;"
+          ></div>
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12 float-left">
+            <img
+              src="/<%= comp.imagePath %>"
+              alt="image"
+              class="rounded m-0 p-0 float-left"
+              width="200"
+              height="250"
+              style="display:inline-block;"
+            />
+            <ul class="list-group list-group-flush pl-4 h6">
+              <li class="list-group-item list-group-item-success">
+                <i class="fa fa-building"></i> <%= comp.name %>
+              </li>
+              <li class="list-group-item list-group-item-success">
+                <i class="fa fa-address-card"></i> <%= comp.address %>
+              </li>
+              <li class="list-group-item list-group-item-success">
+                <i class="fa fa-city"></i> <%= comp.city %>
+              </li>
+              <li class="list-group-item list-group-item-success">
+                <i class="fa fa-flag"></i> <%= comp.country %>
+              </li>
+              <li class="list-group-item list-group-item-success">
+                <i class="fa fa-globe"></i> <%= comp.website %>
+              </li>
+              <li class="list-group-item">
+                <div class="float-left">
+                  <button class="btn btn-outline-primary" title="Rate Company">
+                    <i class="fa fa-star"></i>
+                  </button>
+                  <button
+                    class="btn btn-outline-success ml-2"
+                    title="Register to Company"
+                  >
+                    <i class="fa fa-registered"></i>
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -9,6 +9,7 @@ const mongoose = require("mongoose");
 const flash = require("connect-flash");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 /*
     @title - Environment Variables
@@ -49,9 +50,6 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Static
-app.use(express.static("public"));
-
 // View Engine
 app.engine("ejs", engine);
 app.set("views", __dirname + "/views");
@@ -63,7 +61,10 @@ require("./middleware/auth/passport");
 // Routes
 app.use("/", require("./route"));
 app.use("/auth", require("./route/auth"));
-app.use("/company/", require("./route/companies"));
+app.use("/company", require("./route/companies"));
+
+// Static
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("*", (req, res) => {
   res.redirect("/");

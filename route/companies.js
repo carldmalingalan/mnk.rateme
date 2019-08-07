@@ -66,7 +66,24 @@ route
     res.redirect("/company/add");
   });
 
+route.route("/profile/:id").get((req, res) => {
+  const { id } = req.params;
+  Company.findOne({ _id: id }, (err, comp) => {
+    if (err || !comp) {
+      return res.redirect("/");
+    }
+    res.render("companies/profileComp", {
+      pageTitle: "Profile - MNK Rate Me",
+      user: req.user,
+      errors: req.flash("error"),
+      success: req.flash("success"),
+      comp
+    });
+  });
+});
+
 route.route("/").get(async (req, res) => {
+  console.log(req.params);
   let companies = await Company.find();
   res.render("companies/index", {
     pageTitle: "Companies - RateMe",
@@ -76,4 +93,5 @@ route.route("/").get(async (req, res) => {
     comps: companies
   });
 });
+
 module.exports = route;
