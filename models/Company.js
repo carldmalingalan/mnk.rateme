@@ -26,7 +26,21 @@ const CompanySchema = new Schema({
   },
   imagePath: {
     type: String
-  }
+  },
+  employees: [
+    {
+      id: { type: Schema.Types.ObjectId },
+      rating: { type: Number },
+      role: { type: String }
+    }
+  ],
+  totalStars: { type: Number, default: 0 },
+  totalRating: { type: Number, default: 0 }
+});
+
+CompanySchema.post("update", function(next) {
+  console.log(this);
+  next();
 });
 
 module.exports = Company = mongoose.model("companies", CompanySchema);

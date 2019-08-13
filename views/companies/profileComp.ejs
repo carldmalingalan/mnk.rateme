@@ -1,56 +1,174 @@
 <% layout("layout") %>
 
 <div class="row" style="margin-top: 20px">
-  <div class="col-12 col-lg-12">
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <div
-            class="col-12 col-sm-12 col-md-12 col-lg-12"
-            style="padding: 5px 0 5px 15px;"
-          ></div>
-          <div class="col-12 col-sm-12 col-md-12 col-lg-12 float-left">
-            <img
-              src="/<%= comp.imagePath %>"
-              alt="image"
-              class="rounded m-0 p-0 float-left"
-              width="200"
-              height="250"
-              style="display:inline-block;"
-            />
-            <ul class="list-group list-group-flush pl-4 h6">
-              <li class="list-group-item list-group-item-success">
-                <i class="fa fa-building"></i> <%= comp.name %>
-              </li>
-              <li class="list-group-item list-group-item-success">
-                <i class="fa fa-address-card"></i> <%= comp.address %>
-              </li>
-              <li class="list-group-item list-group-item-success">
-                <i class="fa fa-city"></i> <%= comp.city %>
-              </li>
-              <li class="list-group-item list-group-item-success">
-                <i class="fa fa-flag"></i> <%= comp.country %>
-              </li>
-              <li class="list-group-item list-group-item-success">
-                <i class="fa fa-globe"></i> <%= comp.website %>
-              </li>
-              <li class="list-group-item">
-                <div class="float-left">
-                  <button class="btn btn-outline-primary" title="Rate Company">
+  <div class="col-12 col-lg-12 pb-2">
+    <div class="row">
+      <div class="col-12 col-sm-12 col-md-4 col-lg-4 ">
+        <div
+          class="alert alert-info text-center pb-0 h-75"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Company Rating"
+        >
+          <span>
+            <strong>Rating:</strong>
+            <% for(let i = 0 ; i < parseInt(comp.totalRating) ; i++){%>
+              <% if(i+1 == parseInt(comp.totalRating)) {%>
+                <%if(comp.totalRating != parseInt(comp.totalRating)){%>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star-half"></i>
+                  <%} else{%>
                     <i class="fa fa-star"></i>
-                  </button>
-                  <button
-                    class="btn btn-outline-success ml-2"
-                    title="Register to Company"
-                  >
-                    <i class="fa fa-registered"></i>
-                  </button>
-                </div>
-              </li>
-            </ul>
+                    <%}%>
+                <%} else{%>
+                  <i class="fa fa-star"></i>
+                  <%}%>
+            <%} %>
+            
+            <p style="display:inline-block;">(<%= comp.totalRating%>)</p>
+           
+          </span>
+        </div>
+      </div>
+      <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+        <div
+          class="alert alert-success text-center h-75"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Total Stars"
+        >
+          <strong><i class="fa fa-star"></i> <%= comp.totalStars || 0 %></strong>
+        </div>
+      </div>
+      <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+        <div
+          class="alert alert-warning text-center h-75"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Total Employee"
+        >
+          <i class="fa fa-user"></i> <strong><%= comp.employees.length || 0 %></strong>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-12">
+
+      <% if(errors.length) {%>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <button class="close" data-dismiss="alert" aria-label="close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+        <% errors.forEach(function(val){ %> <%= val %> <br /><% }) %>
+      </div>
+      <% } %> <% if(success.length) {%>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button class="close" data-dismiss="alert" aria-label="close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <% success.forEach(function(val){ %> <%= val %> <% }) %>
+      </div>
+      <% } %>
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div
+              class="col-12 col-sm-12 col-md-12 col-lg-12"
+              style="padding: 5px 0 5px 15px;"
+            ></div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 float-left">
+              <img
+                src="/<%= comp.imagePath %>"
+                alt="image"
+                class="rounded m-0 p-0 float-left"
+                width="200"
+                height="250"
+                style="display:inline-block;"
+              />
+              <ul class="list-group list-group-flush pl-4 h6">
+                <li class="list-group-item list-group-item-success">
+                  <i class="fa fa-building"></i> <%= comp.name %>
+                </li>
+                <li class="list-group-item list-group-item-success">
+                  <i class="fa fa-address-card"></i> <%= comp.address %>
+                </li>
+                <li class="list-group-item list-group-item-success">
+                  <i class="fa fa-city"></i> <%= comp.city %>
+                </li>
+                <li class="list-group-item list-group-item-success">
+                  <i class="fa fa-flag"></i> <%= comp.country %>
+                </li>
+                <li class="list-group-item list-group-item-success">
+                  <i class="fa fa-globe"></i> <%= comp.website %>
+                </li>
+                <li class="list-group-item" style="padding-left:0;">
+                  <div class="float-left">
+                    <% if(isRegistered.length){ %> Your Rating: 
+                      <div class="main-stars">
+                      <% for(let i = 0; i < 5; i++){ %>
+                        <% if(i < isRegistered[0].rating){ %>
+                          <i class="fa fa-star active" data-order="<%= i %>"></i>
+                        <%} else{%>
+                          <i class="fa fa-star" data-order="<%= i %>"></i>
+                          <%}%>
+                        <% }%>
+                      </div>
+                    <%} else {%>
+                      Rating: 
+                      <form action="/company/profile/<%= comp._id %>/create" method="POST">
+                        <div class="main-stars" id="submitRating">
+                          <i class="fa fa-star" data-order="1"></i>
+                          <i class="fa fa-star" data-order="2"></i>
+                          <i class="fa fa-star" data-order="3"></i>
+                          <i class="fa fa-star" data-order="4"></i>
+                          <i class="fa fa-star" data-order="5"></i>
+                        </div>
+                        <input type="text" class="form-control mt-2" placeholder="Role" name="role" required>
+                        <input type="hidden" name="totalRating" id="totalRating" value="" required>
+                        <button class="btn btn-sm btn-outline-warning mt-2" type="submit">Submit Rating</button>
+                      </form>
+                    <% }%>
+                  </div>
+                </li>                
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <script>
+
+
+    $(document).ready(function() {
+      $("#submitRating")
+        .children()
+        .on("mouseover", e => {
+          $(e.target)
+            .siblings()
+            .removeClass("active-per");
+          $(e.target)
+            .addClass("active")
+            .prevAll()
+            .addClass("active");
+        })
+        .on("mouseleave", e => {
+          $(e.target)
+            .removeClass("active")
+            .prevAll()
+            .removeClass("active");
+            
+        })
+        .on("click", e => {
+          $(e.target)
+            .addClass("active-per")
+            .prevAll()
+            .addClass("active-per");
+        $("#totalRating").val(e.target.dataset.order)
+        });
+        
+    });
+  </script>
 </div>

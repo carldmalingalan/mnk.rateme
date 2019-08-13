@@ -1,0 +1,16 @@
+.main-stars {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.main-stars > i {
+  color: #cccbcb;
+  cursor: pointer;
+}
+
+.main-stars > i.active {
+  color: #fff458;
+}
+.main-stars > i.active-per {
+  color: #fff458;
+}

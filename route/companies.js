@@ -72,18 +72,57 @@ route.route("/profile/:id").get((req, res) => {
     if (err || !comp) {
       return res.redirect("/");
     }
+    const isRegistered = comp.employees.filter(
+      val => val.id.toString() == req.user._id
+    );
     res.render("companies/profileComp", {
-      pageTitle: "Profile - MNK Rate Me",
+      pageTitle: `${comp.name} Profile - MNK Rate Me`,
       user: req.user,
       errors: req.flash("error"),
       success: req.flash("success"),
-      comp
+      comp,
+      isRegistered
     });
   });
 });
 
+route.route("/profile/:id/create").post((req, res) => {
+  const { id } = req.params;
+  const { role, totalRating } = req.body;
+  if (!role || !totalRating) {
+    req.flash("error", "All Fields should be filled.");
+    return res.redirect(`/company/profile/${req.params.id}/`);
+  }
+  Company.findByIdAndUpdate(
+    { _id: id },
+    { $push: { employees: { id: req.user._id, role, rating: totalRating } } },
+    { new: true, upsert: true },
+    function(err, data) {
+      if (err) {
+        return req.flash("error", "There's an error while saving.");
+      }
+      return req.flash(
+        "success",
+        `You've successfully registered to ${data.name} as "${role}".`
+      );
+    }
+  );
+  Company.findOne({ _id: id }).exec(function(err, data) {
+    const { _id, employees } = data;
+    let totalStars = employees.reduce((a, b) => ({
+      rating: a.rating + b.rating
+    })).rating;
+    let totalRating = parseInt(totalStars.toString()) / employees.length;
+    Company.findByIdAndUpdate(
+      { _id },
+      { $set: { totalRating, totalStars } },
+      function(err, retData) {}
+    );
+  });
+  res.redirect(`/company/profile/${req.params.id}/`);
+});
+
 route.route("/").get(async (req, res) => {
-  console.log(req.params);
   let companies = await Company.find();
   res.render("companies/index", {
     pageTitle: "Companies - RateMe",
